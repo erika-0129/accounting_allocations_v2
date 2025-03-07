@@ -6,6 +6,7 @@ import google.generativeai as genai
 import logging
 import threading
 import pdf_processor
+import openpyxl
 import time
 from random import uniform
 from datetime import datetime
@@ -19,7 +20,7 @@ genai.configure(api_key=api_key)
 model = genai.GenerativeModel("gemini-1.5-flash")
 
 # Generate a timestamp
-timestamp = datetime.now().strftime('%Y-%m-%d-%H:%M')
+timestamp = datetime.now().strftime('%Y-%m-%d-%H-%M')
 
 COLUMN_MAP = {
     'debit': 'Amount',
@@ -196,16 +197,18 @@ def process_statement(file_path, progress, window):
             category_summary = df.groupby('Category')['Amount'].sum().reset_index()
 
             try:
-                output_path = os.path.join(os.getcwd(), f'allocated_report_{timestamp}.csv')
+                output_path = os.path.join(os.getcwd(), f'allocated_report_{timestamp}.xlsx')
                 if df is None or df.empty:
                     logging.error("DataFrame is empty. No file written.")
                 else:
-                    logging.info(f"DataFrame Preview:\n{df.head()}")  # Add this line
-                    logging.info(f"DataFrame Shape: {df.shape}")  # added
-                    logging.info(f"DataFrame Data Types: {df.dtypes}")  # added
-                    print(df.to_string())  # Added
-                    logging.info(f"Current working directory: {os.getcwd()}")
-                    df.to_csv(output_path, index=False, encoding='utf-8') #added encoding
+                    #logging.info(f"DataFrame Preview:\n{df.head()}")  # Add this line
+                    #logging.info(f"DataFrame Shape: {df.shape}")  # added
+                    #logging.info(f"DataFrame Data Types: {df.dtypes}")  # added
+                    #print(df.to_string())  # Added
+                    #logging.info(f"Current working directory: {os.getcwd()}")
+                    with pd.ExcelWriter(output_path, engine='openpyxl') as writer:
+                        df.to_excel(writer, sheet_name='Transactions', index=False)
+                        category_summary.to_excel(writer, sheet_name='Category Summary', index=False)
                     logging.info(f"File saved successfully: {output_path}")
             except Exception as e:
                 logging.error(f"Error saving CSV file: {e}")
