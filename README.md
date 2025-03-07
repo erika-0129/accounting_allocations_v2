@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ## Setting Up OpenAI API Key
 To run this project, you'll need an OpenAI API key. Please follow the steps below to securely set it up:
 
@@ -73,4 +72,3 @@ This script will extract text from PDF. Uses Optical Character Recognition in ca
 
 ### user_management.py
 For future use
->>>>>>> 9ef97a0eb86331ef59e0d004536012d8e4a4267b
