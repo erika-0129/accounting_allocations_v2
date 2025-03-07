@@ -24,13 +24,14 @@ The program will use AI to analyze each expense and give it a description.
 It will export a CSV file with a "Detailed Report" tab that returns all line items with its category, and a "Category Summary"
 tab that sums up each category to easily see how much the user spent in that category that month.
 
-### accounting_allocations.py
+### main_allocations.py
 This is the driver program. It contains the functionality to use Gemini AI and creates a dialog box to upload a file.
 It also mainly processes CSV and Excel files.
 
-### AccountingPDF.py
+### pdf_processor.py
 Due to the complexity of PDF statements, a separate script was produced.
 This will review PDF files and finds the transactions to be allocated.
-
-### pdf_processor.py
 This script will extract text from PDF. Uses Optical Character Recognition in case the PDF is non-editable
+
+### user_management.py
+For future use
